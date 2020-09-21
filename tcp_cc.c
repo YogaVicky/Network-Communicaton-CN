@@ -5,68 +5,48 @@
 #include<netinet/in.h>
 #include<stdlib.h>
 #include<unistd.h>
-#include <fcntl.h>
-
-#include<sys/wait.h> 
-#include <arpa/inet.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <sys/stat.h>
-void interact(int c_sock,socklen_t add)
-{
-char msg[250];
-
-//type yes
-recv(c_sock,msg,sizeof(msg),0);
-printf("Server:%s\n\n",msg);
-
-printf("Client:");
-scanf("%s",msg);
-send(c_sock,msg,sizeof(msg),0);
-printf("\n");
-bzero(msg,250);
-
-
-recv(c_sock,msg,sizeof(msg),0);
-
-if(strcmp(msg,"ack")==0)
-{
-while(1)
+#include<time.h>
+void interact(int c_sock,socklen_t add)//Function that sends data and creates a copy of the file
 {
 
-//Question
-recv(c_sock,msg,sizeof(msg),0);
-printf("Server:%s\n\n",msg);
 
-if(strcmp(msg,"Win")==0 || strcmp(msg,"Better luck next time")==0 )
-break;
+char buf[3],filename[100];
 
-//Answer send
-printf("Client:");
-scanf("%s",msg);
-send(c_sock,msg,sizeof(msg),0);
-printf("\n");
+FILE *fp;
 
-bzero(msg,250);
-recv(c_sock,msg,sizeof(msg),0);
-if(strcmp(msg,"Better luck next time")==0 )
+printf("Enter the filename along with extension to be copied\n");
+scanf("%s",filename);
+//send filename
+fp=fopen(filename,"r");
+if(fp==NULL)
 {
-printf("Server:%s\n\n",msg);
-break;
-
-}
-
-
-}
-
-}
-
-else
-{
-printf("Server:%s\n",msg);
+printf("File does not exist\n");
+strcpy(filename,"EXIT");
+send(c_sock,filename,sizeof(filename),0);
 exit(0);
-
 }
+
+send(c_sock,filename,sizeof(filename),0);
+
+
+
+char c;
+
+while(!feof(fp))
+{
+fscanf(fp,"%c",&buf[0]);
+
+send(c_sock,buf,sizeof(buf),0);
+}
+bzero(buf,3);
+
+strcpy(buf,"-1");
+send(c_sock,buf,sizeof(buf),0);
+
+
+
+printf("File sent\n");
+fclose(fp);
 }
 
 int main()
@@ -80,19 +60,20 @@ c_sock=socket(AF_INET,SOCK_STREAM,0);
 if(c_sock>0)
 {
 
-struct sockaddr_in server_addr;
+struct sockaddr_in client;
 
 //Server info
-server_addr.sin_family=AF_INET;
-server_addr.sin_port=htons(9025);
-server_addr.sin_addr.s_addr=INADDR_ANY;
+client.sin_family=AF_INET;
+client.sin_port=htons(9044);
+client.sin_addr.s_addr=INADDR_ANY;
 
 int ch=1;
 socklen_t add;
-add=sizeof(server_addr);
+add=sizeof(client);
 //Message Loop
-if(connect(c_sock,(struct sockaddr*)&server_addr,sizeof(server_addr))>=0)
+if(connect(c_sock,(struct sockaddr*)&client,sizeof(client))>=0)
 {
+
 interact(c_sock,add);
 }
 else
