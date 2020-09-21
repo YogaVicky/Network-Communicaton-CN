@@ -36,7 +36,7 @@ int main(){
 
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = port;
-  server_addr.sin_addr.s_addr = inet_addr("13.92.135.188");
+  server_addr.sin_addr.s_addr = INADDR_ANY;
 
   e = bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr));
   if(e < 0) {
