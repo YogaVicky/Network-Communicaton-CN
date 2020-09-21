@@ -15,8 +15,8 @@
 char buf[SIZE];
 
 int main(){
-  char *ip = "172.31.23.128"; //localhost
-  int port = 8080;
+  char *ip = "13.92.135.188"; //localhost
+  int port = 9044;
   int e;
   int l = sizeof(struct sockaddr_in);
   int sockfd;
