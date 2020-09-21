@@ -5,7 +5,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include<sys/wait.h> 
+#include <sys/time.h> 
+#include <sys/wait.h> 
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/uio.h>
@@ -17,7 +18,7 @@ int flag=0;
 
 int main(){
 
-  int port = 8080;
+  int port = 9044;
   int e,n,m;
   struct timeval start, stop, delta;
 
@@ -35,7 +36,7 @@ int main(){
 
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = port;
-  server_addr.sin_addr.s_addr = INADDR_ANY;
+  server_addr.sin_addr.s_addr = inet_addr("13.92.135.188");
 
   e = bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr));
   if(e < 0) {
