@@ -16,7 +16,7 @@ char buf[SIZE];
 
 int main(){
   char *ip = "13.92.135.188"; //localhost
-  int port = 9044;
+  int port = 9045;
   int e;
   int l = sizeof(struct sockaddr_in);
   int sockfd;
