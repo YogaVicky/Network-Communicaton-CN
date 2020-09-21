@@ -63,7 +63,7 @@ int main()
 
 		//Server info
 		client.sin_family = AF_INET;
-		client.sin_port = htons(22);
+		client.sin_port = htons(9044);
 		client.sin_addr.s_addr = inet_addr("13.92.135.188");
 
 		int ch = 1;
