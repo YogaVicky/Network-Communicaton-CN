@@ -63,8 +63,8 @@ int main()
 
 		//Server info
 		client.sin_family = AF_INET;
-		client.sin_port = htons(9044);
-		client.sin_addr.s_addr = inet_addr("13.92.135.188");
+		client.sin_port = htons(9046);
+		client.sin_addr.s_addr = inet_addr("13.72.86.67");
 
 		int ch = 1;
 		socklen_t add;

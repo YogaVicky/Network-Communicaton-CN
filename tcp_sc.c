@@ -92,7 +92,7 @@ int main()
 
 		//server information
 		server_addr.sin_family = AF_INET;
-		server_addr.sin_port = htons(9044);
+		server_addr.sin_port = htons(9046);
 		server_addr.sin_addr.s_addr = INADDR_ANY;
 
 		socklen_t add;
